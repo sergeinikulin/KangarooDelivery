@@ -1,0 +1,9 @@
+databaseChangeLog:
+  -   changeSet:
+        id: "20220911"
+        author: nikilinsa
+        dbms: postgresql
+        changes:
+          -   sqlFile:
+                path: changes/init.sql
+                relativeToChangelogFile: true
