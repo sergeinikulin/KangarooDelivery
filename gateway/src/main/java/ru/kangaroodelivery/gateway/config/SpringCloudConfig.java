@@ -16,6 +16,10 @@ public class SpringCloudConfig {
                         .filters(f -> f.stripPrefix(1))
                         .uri(URI.create("http://172.15.0.8:8080/"))
                 )
+                .route(r -> r.path("/orders/**")
+                        .filters(f -> f.stripPrefix(1))
+                        .uri(URI.create("http://172.15.0.9:8082/"))
+                )
                 .build();
     }
 }

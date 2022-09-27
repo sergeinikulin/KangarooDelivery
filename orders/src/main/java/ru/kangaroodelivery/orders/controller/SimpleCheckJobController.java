@@ -1,4 +1,4 @@
-package ru.kangaroodelivery.reports.controller;
+package ru.kangaroodelivery.orders.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +10,6 @@ public class SimpleCheckJobController {
 
     @GetMapping
     public String getCheck() {
-        return "reports its job!";
+        return "orders its job!";
     }
 }

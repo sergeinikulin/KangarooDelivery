@@ -26,6 +26,7 @@
     <modules>
         <module>gateway</module>
         <module>reports</module>
+        <module>orders</module>
     </modules>
 
     <dependencies>

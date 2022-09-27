@@ -1,0 +1,30 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://172.15.0.5:5432/kangarooDelivery
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: ${SHOW_SQL:true}
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog-master.yml
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+  #rabbitmq:
+  #  host: 172.15.0.10
+  #  port: 5672
+  #  username: guest
+  #  password: guest

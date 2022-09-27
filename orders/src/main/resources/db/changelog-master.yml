@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: 20220928/changelog.yml
+      relativeToChangelogFile: true
+
+#SELECT *
+#FROM public.databasechangelog;
