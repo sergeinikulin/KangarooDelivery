@@ -1,0 +1,29 @@
+services:
+
+  gateway:
+    container_name: gateway-service
+    restart: always
+    build: gateway-service/
+    ports:
+      - 8000:8000
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.7
+
+  test-service:
+    container_name: test-service
+    restart: always
+    build: test-service/
+    ports:
+      - 8081:8081
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.8
+
+networks:
+  app-network:
+    name: app-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.15.0.0/24

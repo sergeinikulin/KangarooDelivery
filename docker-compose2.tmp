@@ -1,0 +1,89 @@
+#version: "3.9"
+#
+#services:
+#
+#  postgres:
+#    container_name: database
+#    image: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: kangarooDelivery
+#      PGDATA: /var/lib/postgres/data
+#    ports:
+#      - 5432:5432
+#    networks:
+#      app-network:
+#        ipv4_address: 172.15.0.5
+#
+#  pgadmin:
+#    container_name: pgadmin
+#    restart: always
+#    image: dpage/pgadmin4:6.1
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: noemail@noemail.com
+#      PGADMIN_DEFAULT_PASSWORD: root
+#    ports:
+#      - 5050:80
+#    volumes:
+#      - pgadmin-data:/var/lib/pgadmin
+#    networks:
+#      app-network:
+#        ipv4_address: 172.15.0.6
+#
+#  gateway:
+#    container_name: gateway
+#    restart: always
+#    build: gateway/
+#    ports:
+#      - 8000:8000
+#    networks:
+#      app-network:
+#        ipv4_address: 172.15.0.7
+#
+#  reports:
+#    container_name: reports
+#    build: reports/
+#    environment:
+#      - "JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=*:8081,server=y,suspend=n"
+#    ports:
+#      - 8081:8081 #debug port
+#    networks:
+#      app-network:
+#        ipv4_address: 172.15.0.8
+#
+#  #dispatcherroom:
+#  #  container_name: dispatcherroom_microservice
+#  #  build: dispatcher-room/
+#  #  networks:
+#  #    app-network:
+#  #      ipv4_address: 172.15.0.9
+#
+#  rabbitmq3:
+#    container_name: rabbitmq
+#    image: rabbitmq:3-management
+#    restart: always
+#    environment:
+#      RABBITMQ_DEFAULT_USER: user
+#      RABBITMQ_DEFAULT_PASS: password
+#    networks:
+#      app-network:
+#        ipv4_address: 172.15.0.10
+#    ports:
+#      - 15672:15672
+#
+##todo +микросервисыПоFrontend
+#
+#networks:
+#  app-network:
+#    name: app-network
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 172.15.0.0/24
+#
+#volumes:
+#  pgadmin-data:
+#
+##todo размеры образов?

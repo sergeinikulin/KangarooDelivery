@@ -11,8 +11,7 @@ public class TestController {
 
     @GetMapping
     public String showStatus() {
-        return "SUCCESS_STATUSOKOKOKOKOKOK";
+        return "TEST-SERVICE-RUNNING";
     }
-
 
 }
