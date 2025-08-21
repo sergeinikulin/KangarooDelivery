@@ -18,6 +18,8 @@
     <modules>
         <module>gateway-service</module>
         <module>test-service</module>
+        <module>test-service2</module>
+        <module>test-service3</module>
     </modules>
 
     <properties>

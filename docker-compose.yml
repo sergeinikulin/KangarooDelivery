@@ -20,6 +20,26 @@ services:
       app-network:
         ipv4_address: 172.15.0.8
 
+  test-service2:
+    container_name: test-service2
+    restart: always
+    build: test-service2/
+    ports:
+      - 8082:8082
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.9
+
+  test-service3:
+    container_name: test-service3
+    restart: always
+    build: test-service3/
+    ports:
+      - 8083:8083
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.10
+
 networks:
   app-network:
     name: app-network

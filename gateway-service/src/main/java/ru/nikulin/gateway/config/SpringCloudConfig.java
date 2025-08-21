@@ -14,6 +14,12 @@ public class SpringCloudConfig {
             .route(r -> r.path("/test-service/**")
                     .filters(f -> f.stripPrefix(1))
                     .uri("http://host.docker.internal:8081"))
+            .route(r -> r.path("/test-service2/**")
+                    .filters(f -> f.stripPrefix(1))
+                    .uri("http://host.docker.internal:8082"))
+            .route(r -> r.path("/test-service3/**")
+                    .filters(f -> f.stripPrefix(1))
+                    .uri("http://host.docker.internal:8083"))
             .build();
 
 //                .route("zoo_route",
