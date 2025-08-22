@@ -32,6 +32,8 @@ public class KafkaConfig {
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class.getName());
         return new DefaultKafkaProducerFactory<>(config);
     }
+
+    //todo понять что это делает и надо ли это
     @Bean
     public NewTopic taskTopic() {
         return TopicBuilder.name("topic-name")
@@ -39,6 +41,7 @@ public class KafkaConfig {
                 .replicas(1)
                 .build();
     }
+
     @Bean
     public KafkaTemplate<String, MyMsg> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
