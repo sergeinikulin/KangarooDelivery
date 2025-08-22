@@ -11,7 +11,7 @@ public class TestController {
 
     @GetMapping
     public String showStatus() {
-        return "TEST-SERVICE3-RUNNING";
+        return "TEST-SERVICE2-RUNNING";
     }
 
 }

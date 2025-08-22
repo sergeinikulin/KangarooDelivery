@@ -40,7 +40,63 @@ services:
       app-network:
         ipv4_address: 172.15.0.10
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 2181:2181
+    networks:
+      - kafka-network
+      #- app-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092  # Для клиентов
+      - 9093:9093  # Для контроллеров
+    environment:
+      CLUSTER_ID: "4LxzgYFSTnO0sN-8KjZ7Hg"  # Любой уникальный ID
+      # Обязательные параметры
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"  # Важно: имя контейнера и порт
+      # Listeners
+      KAFKA_LISTENERS: "PLAINTEXT://:9092,CONTROLLER://:9093"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      # Дополнительные настройки
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - kafka-network
+      #- app-network
+
+#  kafka-ui:
+#    image: provectuslabs/kafka-ui:latest
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - KAFKA_CLUSTERS_0_NAME=production
+#      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=your-kafka-host:9092
+#      - KAFKA_CLUSTERS_0_ZOOKEEPER=your-zookeeper-host:2181
+#      # Опционально: аутентификация
+#      #- KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL=SASL_PLAINTEXT
+#      #- KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM=SCRAM-SHA-256
+#      #- KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG=org.apache.kafka.common.security.scram.ScramLoginModule required username="user" password="password"
+#    networks:
+#      - kafka-network
+
 networks:
+  kafka-network:
+    driver: bridge
+
   app-network:
     name: app-network
     ipam:
