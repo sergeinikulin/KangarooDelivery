@@ -3,16 +3,14 @@ package ru.nikulin.test.sheduling;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.nikulin.test.kafka.KafkaProducerService;
-import ru.nikulin.test.kafka.MyMsg;
-
-import java.util.Date;
+import ru.nikulin.test.kafka.producer.MyMsgProducer;
+import ru.nikulin.test.kafka.messages.MyMsg;
 
 @Component
 public class Tasks {
 
     @Autowired
-    KafkaProducerService kafkaProducerService;
+    MyMsgProducer myMsgProducer;
 
 //    @Scheduled(fixedRate = 5000)
 //    public void sendMessage() {
@@ -27,11 +25,11 @@ public class Tasks {
         MyMsg myMsg = new MyMsg();
         myMsg.setMsg("partition - 0");
         myMsg.setId(1);
-        kafkaProducerService.send("topic-name", 0, 0, myMsg);
+        myMsgProducer.send("topic-name", 0, 0, myMsg);
 
         MyMsg myMsg2 = new MyMsg();
         myMsg2.setMsg("partition - 1");
         myMsg2.setId(1);
-        kafkaProducerService.send("topic-name", 1, 0, myMsg2);
+        myMsgProducer.send("topic-name", 1, 0, myMsg2);
     }
 }

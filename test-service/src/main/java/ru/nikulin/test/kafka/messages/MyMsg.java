@@ -1,4 +1,4 @@
-package ru.nikulin.test.kafka;
+package ru.nikulin.test.kafka.messages;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

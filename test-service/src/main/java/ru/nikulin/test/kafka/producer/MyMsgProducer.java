@@ -1,13 +1,14 @@
-package ru.nikulin.test.kafka;
+package ru.nikulin.test.kafka.producer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import ru.nikulin.test.kafka.messages.MyMsg;
 
 @Service
 @Slf4j
-public class KafkaProducerService {
+public class MyMsgProducer {
 
     @Autowired
     KafkaTemplate<String, MyMsg> kafkaTemplate;
@@ -24,6 +25,7 @@ public class KafkaProducerService {
         });
     }
 
+    //use partition
     public void send(String topicName, Integer partition, Integer key, MyMsg value) {
         var future = kafkaTemplate.send(topicName, partition, String.valueOf(key), value);
         future.whenComplete((sendResult, exception) -> {
