@@ -1,35 +1,5 @@
 services:
 
-#  gateway:
-#    container_name: gateway-service
-#    restart: always
-#    build: gateway-service/
-#    ports:
-#      - 8000:8000
-#    networks:
-#      app-network:
-#        ipv4_address: 172.15.0.7
-
-#  test-service2:
-#    container_name: test-service2
-#    restart: always
-#    build: test-service2/
-#    ports:
-#      - 8082:8082
-#    networks:
-#      app-network:
-#        ipv4_address: 172.15.0.9
-#
-#  test-service3:
-#    container_name: test-service3
-#    restart: always
-#    build: test-service3/
-#    ports:
-#      - 8083:8083
-#    networks:
-#      app-network:
-#        ipv4_address: 172.15.0.10
-
 ############################################################################################
 ######################                 infrastructure                 ######################
 ############################################################################################
@@ -85,7 +55,6 @@ services:
       - KAFKA_CLUSTERS_0_NAME=local-kafka
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
-      #- KAFKA_CLUSTERS_0_METRICS_PORT=9997
     networks:
       - kafka-network
     healthcheck:
@@ -98,34 +67,51 @@ services:
   ######################                    services                    ######################
   ############################################################################################
 
+  gateway:
+    container_name: gateway-service
+    restart: always
+    build: gateway-service/
+    ports:
+      - 8000:8000
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.7
+
   test-service:
     container_name: test-service
     build: test-service/
     ports:
       - 8081:8081
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.8
 
   test-service2:
     container_name: test-service2
     build: test-service2/
     ports:
       - 8082:8082
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.9
 
   test-service3:
     container_name: test-service3
     build: test-service3/
     ports:
       - 8083:8083
-
-
+    networks:
+      app-network:
+        ipv4_address: 172.15.0.10
 
 
 networks:
   kafka-network:
     driver: bridge
 
-#  app-network:
-#    name: app-network
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet: 172.15.0.0/24
+  app-network:
+    name: app-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.15.0.0/24

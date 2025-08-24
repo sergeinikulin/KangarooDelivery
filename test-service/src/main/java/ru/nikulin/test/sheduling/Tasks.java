@@ -14,11 +14,24 @@ public class Tasks {
     @Autowired
     KafkaProducerService kafkaProducerService;
 
+//    @Scheduled(fixedRate = 5000)
+//    public void sendMessage() {
+//        MyMsg myMsg = new MyMsg();
+//        myMsg.setMsg("Hello World - " + new Date());
+//        myMsg.setId(1);
+//        kafkaProducerService.send("topic-name", myMsg);
+//    }
+
     @Scheduled(fixedRate = 5000)
-    public void sendMessage() {
+    public void sendMessageByPartition() {
         MyMsg myMsg = new MyMsg();
-        myMsg.setMsg("Hello World - " + new Date());
+        myMsg.setMsg("partition - 0");
         myMsg.setId(1);
-        kafkaProducerService.send("topic-name", myMsg);
+        kafkaProducerService.send("topic-name", 0, 0, myMsg);
+
+        MyMsg myMsg2 = new MyMsg();
+        myMsg2.setMsg("partition - 1");
+        myMsg2.setId(1);
+        kafkaProducerService.send("topic-name", 1, 0, myMsg2);
     }
 }
