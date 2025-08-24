@@ -17,17 +17,27 @@ import java.util.Map;
 @Configuration
 @EnableKafka
 public class KafkaConfig {
+
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
+
     @Bean
     public ConsumerFactory<String, MyMsg> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class.getName());
-        config.put("spring.json.type.mapping", "ru.nikulin.test.kafka.MyMsg:ru.nikulin.test.kafka.MyMsg");    // This config tells mapper that these two classes although in different package but are same.
+
+        String messagesMapping = String.join(",",
+                "ru.nikulin.test.kafka.MyMsg:ru.nikulin.test.kafka.MyMsg"
+                //, "ru.nikulin.test.kafka.OtherMsg:ru.nikulin.test.kafka.OtherMsg"
+                //, "ru.nikulin.test.kafka.AnotherMsg:ru.nikulin.test.kafka.AnotherMsg"
+        );
+        config.put("spring.json.type.mapping", messagesMapping);
+
         return new DefaultKafkaConsumerFactory<>(config);
     }
+
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, MyMsg> kafkaListenerContainerFactory(
             ConsumerFactory<String, MyMsg> consumerFactory) {
