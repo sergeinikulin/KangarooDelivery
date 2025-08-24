@@ -33,7 +33,8 @@ public class KafkaConfig {
         return new DefaultKafkaProducerFactory<>(config);
     }
 
-    //todo понять что это делает и надо ли это
+    //Автоматическое создание топика при старте приложения
+    //Если топик уже существует, настройки не перезаписываются (Kafka игнорирует дублирующиеся создания)
     @Bean
     public NewTopic taskTopic() {
         return TopicBuilder.name("topic-name")
