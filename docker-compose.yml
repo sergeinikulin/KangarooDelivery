@@ -30,6 +30,10 @@ services:
 #      app-network:
 #        ipv4_address: 172.15.0.10
 
+############################################################################################
+######################                 infrastructure                 ######################
+############################################################################################
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     container_name: zookeeper
@@ -54,20 +58,17 @@ services:
         condition: service_healthy
     ports:
       - "9092:9092"
-      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_DELETE_TOPIC_ENABLE: "true"
     networks:
       - kafka-network
     healthcheck:
-      test: [ "CMD", "kafka-topics", "--bootstrap-server", "kafka:29092", "--list" ]
+      test: [ "CMD", "kafka-topics", "--bootstrap-server", "kafka:9092", "--list" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -82,7 +83,7 @@ services:
       - "8080:8080"
     environment:
       - KAFKA_CLUSTERS_0_NAME=local-kafka
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
       #- KAFKA_CLUSTERS_0_METRICS_PORT=9997
     networks:
@@ -93,16 +94,27 @@ services:
       timeout: 10s
       retries: 3
 
-#  test-service:
-#    container_name: test-service
-#    restart: always
-#    build: test-service/
-#    depends_on:
-#      - kafka
-#    environment:
-#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-#    ports:
-#      - 8081:8081
+  ############################################################################################
+  ######################                    services                    ######################
+  ############################################################################################
+
+  test-service:
+    container_name: test-service
+    build: test-service/
+    ports:
+      - 8081:8081
+
+  test-service2:
+    container_name: test-service2
+    build: test-service2/
+    ports:
+      - 8082:8082
+
+  test-service3:
+    container_name: test-service3
+    build: test-service3/
+    ports:
+      - 8083:8083
 
 
 

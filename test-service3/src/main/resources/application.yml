@@ -3,4 +3,4 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: PLAINTEXT://:9092
+    bootstrap-servers: host.docker.internal:9092

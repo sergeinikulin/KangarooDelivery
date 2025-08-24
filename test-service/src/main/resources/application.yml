@@ -3,8 +3,7 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: PLAINTEXT://:9092
-    #bootstrap-servers: kafka:9092
+    bootstrap-servers: host.docker.internal:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
